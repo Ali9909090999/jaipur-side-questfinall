@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f8eeeb">
+  <meta name="description" content="A tiny story travelling from Mumbai to Jaipur, one little chapter at a time.">
+  <title>The Jaipur Side Quest ✨</title>
+  <style>
+    :root {
+      --ink: #594650;
+      --muted: #8e7a84;
+      --rose: #a86f83;
+      --rose-dark: #81566c;
+      --rose-pale: #f5e6e9;
+      --paper: rgba(255, 251, 247, .91);
+      --line: #eadbdc;
+      --gold: #c69b64;
+      --shadow: 0 18px 50px rgba(99, 67, 84, .09);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 24px 16px 50px;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 7%, rgba(255, 250, 232, .95), transparent 32%),
+        radial-gradient(circle at 92% 30%, rgba(232, 222, 241, .78), transparent 31%),
+        radial-gradient(circle at 50% 100%, rgba(246, 220, 218, .65), transparent 42%),
+        #f8eeeb;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    button { font: inherit; }
+    .page { width: min(100%, 720px); margin: 0 auto; }
+    .hero { text-align: center; padding: 28px 12px 24px; position: relative; }
+    .orbit { color: #b58a9b; letter-spacing: 10px; font-size: 15px; margin-bottom: 18px; }
+    .eyebrow {
+      color: var(--muted); text-transform: uppercase; letter-spacing: 3px;
+      font-size: 10px; font-weight: 700;
+    }
+    h1 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(42px, 9vw, 66px); line-height: 1.02;
+      font-weight: 400; letter-spacing: -1.7px;
+      color: #79596c; margin: 16px 0 12px;
+    }
+    .subtitle {
+      color: #987d8d; font-family: Georgia, "Times New Roman", serif;
+      font-style: italic; font-size: clamp(16px, 4vw, 19px); line-height: 1.55;
+    }
+    .route {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      margin-top: 21px; padding: 9px 15px; border: 1px solid #ead9dd;
+      border-radius: 999px; background: rgba(255, 251, 247, .65);
+      color: #947987; font-size: 11px; letter-spacing: .8px;
+    }
+    .route .dot { width: 5px; height: 5px; border-radius: 50%; background: #bd8c9d; }
+
+    .intro-card, .count-card, .chapter, .bonus {
+      background: var(--paper); border: 1px solid rgba(234, 219, 220, .95);
+      border-radius: 22px; box-shadow: var(--shadow);
+    }
+    .intro-card { padding: 23px 24px; margin: 10px 0 20px; }
+    .label {
+      font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--rose); font-weight: 700; margin-bottom: 12px;
+    }
+    .intro-card p, .chapter-body p {
+      font-family: Georgia, "Times New Roman", serif; font-size: 17px;
+      line-height: 1.78; color: #6f5a65; margin: 0 0 11px;
+    }
+    .intro-card p:last-child, .chapter-body p:last-child { margin-bottom: 0; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 12px; margin: 32px 3px 14px; }
+    .section-head h2 {
+      font: 400 27px/1.1 Georgia, "Times New Roman", serif;
+      color: #79596c; margin: 0;
+    }
+    .section-head span { font-size: 10px; letter-spacing: 1.2px; color: var(--muted); text-transform: uppercase; }
+
+    .count-card { padding: 17px 20px; margin: 18px 0 14px; display: flex; align-items: center; gap: 14px; }
+    .count-icon { width: 42px; height: 42px; flex: 0 0 42px; display: grid; place-items: center; border-radius: 14px; background: #f5e8eb; font-size: 20px; }
+    .count-copy { flex: 1; min-width: 0; }
+    .count-title { color: #896d7d; font-size: 11px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; }
+    .count-time { color: #765c6b; font: 19px Georgia, "Times New Roman", serif; margin-top: 3px; font-variant-numeric: tabular-nums; }
+    .count-sub { color: #a08e96; font-size: 10px; margin-top: 3px; }
+
+    .chapters { display: grid; gap: 13px; }
+    .chapter { overflow: hidden; transition: transform .2s ease, box-shadow .2s ease; }
+    .chapter:hover { transform: translateY(-2px); box-shadow: 0 20px 42px rgba(99, 67, 84, .11); }
+    .chapter-top { padding: 18px 19px; display: flex; align-items: center; gap: 13px; }
+    .chapter-icon { width: 48px; height: 48px; flex: 0 0 48px; display: grid; place-items: center; background: #f5e8eb; border-radius: 16px; font-size: 22px; }
+    .chapter-copy { flex: 1; min-width: 0; }
+    .chapter-kicker { color: #a78d98; font-size: 9px; letter-spacing: 1.4px; text-transform: uppercase; margin-bottom: 5px; }
+    .chapter-title { color: #76596a; font: 19px/1.25 Georgia, "Times New Roman", serif; }
+    .chapter-teaser { color: #9a8790; font-size: 11px; margin-top: 5px; line-height: 1.5; }
+    .open-btn {
+      border: 0; border-radius: 999px; padding: 10px 15px; flex: 0 0 auto;
+      color: white; background: var(--rose-dark); font-size: 11px; font-weight: 650;
+      cursor: pointer; transition: transform .15s, background .15s;
+    }
+    .open-btn:hover:not(:disabled) { transform: translateY(-1px); background: #70485f; }
+    .open-btn:disabled { color: #a6969e; background: #eee6e8; cursor: default; }
+    .chapter-body { display: none; padding: 0 22px 22px; animation: appear .35s ease; }
+    .chapter-body.show { display: block; }
+    .inner-rule { border-top: 1px solid var(--line); margin: 0 0 18px; }
+    .chapter-body h3 { color: #805c70; font: 400 25px/1.2 Georgia, "Times New Roman", serif; margin: 0 0 13px; }
+    .chapter-body .small-note { color: #987c8b; font: italic 14px/1.7 Georgia, "Times New Roman", serif; }
+    .chapter-body .emphasis { color: #a36e83; }
+    .choice-prompt { color: #896a7a; font-weight: 700; font-size: 12px; margin: 17px 0 10px; }
+    .choices { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0 13px; }
+    .choice {
+      color: #805f72; background: #f7ecee; border: 1px solid #ead8df;
+      padding: 9px 12px; border-radius: 999px; cursor: pointer; font-size: 11px;
+    }
+    .choice:hover, .choice.selected { color: white; background: #876176; border-color: #876176; }
+    .reveal { display: none; border-radius: 15px; background: #f8eff0; padding: 14px 16px; color: #735c69; font: 15px/1.7 Georgia, "Times New Roman", serif; }
+    .reveal.show { display: block; animation: appear .25s ease; }
+    .end-line { margin-top: 18px !important; padding-top: 13px; border-top: 1px dashed #e6d4da; color: #a17487 !important; font-style: italic; font-size: 15px !important; }
+
+    .gentle-reminder {
+      margin: 16px 0 17px; padding: 15px 16px; border: 1px solid #ead7dd;
+      border-radius: 16px; background: linear-gradient(135deg, #fbf1f2, #fff8f0);
+    }
+    .gentle-reminder .reminder-label {
+      color: #9b6e82; font-size: 10px; font-weight: 750;
+      letter-spacing: 1.3px; text-transform: uppercase; margin-bottom: 7px;
+    }
+    .gentle-reminder p {
+      margin: 0; color: #765f6b; font: 14px/1.75 Georgia, "Times New Roman", serif;
+    }
+    .gentle-reminder p + p { margin-top: 8px; }
+
+    .mystery-thread {
+      margin: 14px 0 20px; padding: 17px 19px; border-radius: 18px;
+      border: 1px dashed #d9bfca; background: rgba(255, 250, 247, .72);
+      text-align: center;
+    }
+    .mystery-thread .thread-label {
+      color: #a4778a; font-size: 9px; font-weight: 750;
+      letter-spacing: 1.8px; text-transform: uppercase; margin-bottom: 8px;
+    }
+    .mystery-thread p {
+      margin: 0; color: #806779; font: italic 15px/1.7 Georgia, "Times New Roman", serif;
+    }
+    .postmark {
+      display: inline-flex; align-items: center; gap: 7px;
+      margin: 0 0 14px; padding: 7px 11px; border: 1px dashed #d7bdc8;
+      border-radius: 999px; color: #98778a; background: #fcf5f4;
+      font-size: 9px; letter-spacing: 1.1px; text-transform: uppercase;
+    }
+    .postmark .stamp { font-size: 14px; }
+    .bonus { padding: 21px 20px; text-align: center; margin-top: 19px; }
+    .bonus .star { font-size: 25px; color: #bd91a1; margin: 2px 0 8px; }
+    .bonus h3 { font: 400 21px Georgia, "Times New Roman", serif; color: #805c70; margin: 0 0 7px; }
+    .bonus p { color: #95828c; font-size: 11px; margin: 0 0 13px; }
+    .bonus-btn { border: 1px solid #e5ced7; color: #805c70; background: #fbf3f4; border-radius: 999px; padding: 10px 16px; cursor: pointer; font-size: 11px; }
+    .bonus-result { display: none; color: #806578; font: italic 15px/1.6 Georgia, "Times New Roman", serif; margin: 13px auto 0; max-width: 390px; }
+    .bonus-result.show { display: block; }
+    .footer { text-align: center; color: #a18e97; font-size: 10px; line-height: 1.8; margin: 27px 0 0; }
+    .footer strong { display: block; color: #987589; font: italic 16px Georgia, "Times New Roman", serif; margin-top: 7px; font-weight: 400; }
+    .preview-banner { display: none; border-radius: 12px; padding: 10px 13px; color: #77576b; background: #f4e5eb; font-size: 11px; text-align: center; margin-bottom: 13px; }
+    .preview-banner.show { display: block; }
+    .hidden { display: none !important; }
+    button:focus-visible { outline: 3px solid rgba(168,111,131,.35); outline-offset: 3px; }
+    @keyframes appear { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 500px) {
+      body { padding: 13px 12px 35px; }
+      .hero { padding-top: 23px; }
+      .intro-card { padding: 20px; }
+      .chapter-top { padding: 15px 13px; gap: 10px; }
+      .chapter-icon { width: 42px; height: 42px; flex-basis: 42px; }
+      .chapter-title { font-size: 17px; }
+      .chapter-teaser { font-size: 10px; }
+      .open-btn { padding: 9px 12px; }
+      .chapter-body { padding: 0 17px 19px; }
+      .count-card { padding: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <div class="orbit">✦ &nbsp; ✧ &nbsp; ✦</div>
+      <div class="eyebrow">A little story travelling between two cities</div>
+      <h1>The Jaipur<br>Side Quest</h1>
+      <div class="subtitle">A tiny corner from my side of the screen, just for Madam.</div>
+      <div class="route"><span>MUMBAI</span><span class="dot"></span><span>JAIPUR</span><span>✈</span></div>
+    </header>
+
+    <div id="previewBanner" class="preview-banner">Preview mode is on — all four chapters are open below for testing. This banner will not appear on the normal link.</div>
+
+    <section class="intro-card">
+      <div class="label">A little note before you begin</div>
+      <p>Hey Madam! 😂</p>
+      <p>I couldn't exactly come along to Jaipur — and considering the amount of nakhre you carry, I'm not sure there would've been enough room in the luggage anyway.</p>
+      <p>So I thought I'd send a tiny side quest from Mumbai instead. It's a little story that unfolds over the next few days. Nothing to finish, no homework, and definitely no attendance required.</p>
+      <p>Just open a chapter whenever you feel like it. I hope it gives you a small smile somewhere between all the offsite chaos. 😊</p>
+    </section>
+
+    <section class="mystery-thread">
+      <div class="thread-label">A little mystery is travelling with the story ✉️</div>
+      <p>The paper plane is carrying one tiny delivery it refuses to explain. It says the clue will make sense after four little postmarks. No puzzles to solve — just follow along whenever you feel like it. 👀</p>
+    </section>
+
+    <section class="count-card" aria-live="polite">
+      <div class="count-icon">⏳</div>
+      <div class="count-copy">
+        <div class="count-title" id="countTitle">The next little chapter arrives in</div>
+        <div class="count-time" id="countTime">Checking the Jaipur clock…</div>
+        <div class="count-sub" id="countSub">All times follow Indian Standard Time.</div>
+      </div>
+    </section>
+
+    <div class="section-head">
+      <h2>Four little chapters</h2>
+      <span id="availableCount">A story in progress</span>
+    </div>
+
+    <section class="chapters" id="chapters">
+      <article class="chapter" data-episode="1">
+        <div class="chapter-top">
+          <div class="chapter-icon">✈️</div>
+          <div class="chapter-copy">
+            <div class="chapter-kicker">Chapter 01 · The beginning</div>
+            <div class="chapter-title">The Paper Plane That Missed Its Flight</div>
+            <div class="chapter-teaser">A tiny delivery from Mumbai has found its way to Jaipur.</div>
+          </div>
+          <button class="open-btn" id="button1" onclick="toggleEpisode(1)">Open</button>
+        </div>
+        <div class="chapter-body" id="episode1">
+          <div class="inner-rule"></div>
+          <div class="postmark"><span class="stamp">🛩️</span> Postmark 01 of 04 · Take-off</div>
+          <h3>One small delivery…</h3>
+          <p>Once upon a Wednesday evening, a very determined paper plane tried to book a seat to Jaipur.</p>
+          <p>Unfortunately, it was informed that the luggage allowance had already been taken up by Madam's essentials: outfits, plans, snacks and an entirely unreasonable amount of nakhre. 😂</p>
+          <p>So the paper plane took another route. It travelled through the little space between two screens and arrived here instead.</p>
+          <p>Its message was simple:</p>
+          <p class="emphasis">“I may not be there in Jaipur, but I can still send a little hello from my side.”</p>
+          <p>And that, Madam, is how this tiny side quest began.</p>
+          <p>Before taking off again, the plane dropped a little envelope with <strong>four empty postmarks</strong> on the front. A note said: “This delivery can only be understood when all four marks have arrived.”</p>
+          <p>The first clue was tucked underneath: <span class="emphasis">“It cannot be packed in a suitcase, but it can travel with you.”</span></p>
+          <p>For now, your only mission is to enjoy the trip. Let the plans happen, collect a few laughs, try something nice and make some memories.</p>
+          <p class="small-note">P.S. The paper plane has requested a review of the luggage policy. It feels the nakhre department has too much influence. 😂</p>
+          <p class="end-line">But wait… the paper plane says it spotted something pink on the way. It also heard a mysterious “Madam!” being called from somewhere near the postcard stand. Tomorrow may explain both. 👀</p>
+        </div>
+      </article>
+
+      <article class="chapter" data-episode="2">
+        <div class="chapter-top">
+          <div class="chapter-icon">🌸</div>
+          <div class="chapter-copy">
+            <div class="chapter-kicker">Chapter 02 · A new clue</div>
+            <div class="chapter-title" id="title2">A little surprise is on its way</div>
+            <div class="chapter-teaser" id="teaser2">Something pink, one unexpected choice, and a small twist.</div>
+          </div>
+          <button class="open-btn" id="button2" disabled>Sealed</button>
+        </div>
+        <div class="chapter-body" id="episode2">
+          <div class="inner-rule"></div>
+          <div class="postmark"><span class="stamp">🌸</span> Postmark 02 of 04 · The pink clue</div>
+          <h3>The Pink City has a question…</h3>
+          <p>The paper plane has landed safely, and it has sent back a postcard. The postcard is pink, naturally — Jaipur wouldn't have it any other way.</p>
+          <p>On the back, someone has written:</p>
+          <p class="emphasis">“The best bits of a trip aren't always on the itinerary. Sometimes they're the tiny, unplanned moments that sneak up on you.”</p>
+          <div class="gentle-reminder">
+            <div class="reminder-label">A tiny reminder from Mumbai 💻</div>
+            <p>And since the laptop might be travelling with you too… I hope it gets a little holiday. 😂 If something genuinely urgent comes up, maybe give it an hour or so, then let your manager and team handle the rest. You're at the offsite to enjoy Jaipur too — not to run the whole office from there. 😊</p>
+          </div>
+          <div class="gentle-reminder">
+            <div class="reminder-label">Madam's little care note 🌷</div>
+            <p>Please look after yourself while you're away, okay? Have proper meals (don't survive on snacks and coffee alone 😂), take your medicines on time, and try to get good sleep even if a new place makes it a little difficult. And go a little easy on cold things, especially while you're travelling.</p>
+            <p>Basically: eat well, rest well and take care of yourself. Let the usual work worries sit on mute for a couple of days, enjoy yourself, laugh lots and come back feeling refreshed. That's my main wish for you. ❤️</p>
+          </div>
+          <div class="gentle-reminder">
+            <div class="reminder-label">A tiny request from Mumbai 📸</div>
+            <p>And Madam… if you feel like it, send me a picture of yourself now and then — or a little glimpse of something you spot in Jaipur. Hehe. I may not be there with you, but seeing a tiny bit of your day from here would make me feel a little more connected. No pressure to keep sending updates, though. Enjoy your trip first. 😊</p>
+          </div>
+          <p>Which brings us to a very important, highly scientific question for Madam.</p>
+          <div class="choice-prompt">Choose the little thing you'd happily make time for:</div>
+          <div class="choices" id="jaipurChoices">
+            <button class="choice" onclick="selectChoice(this, 'jaipurResult', 'A slow café moment, something delicious and absolutely no hurry. Excellent choice, Madam. ☕')">☕ A cosy café</button>
+            <button class="choice" onclick="selectChoice(this, 'jaipurResult', 'A spontaneous little adventure. We suspected Madam would choose a plot twist. 🌷')">🌷 A random adventure</button>
+            <button class="choice" onclick="selectChoice(this, 'jaipurResult', 'Good company and uncontrollable laughter. That sounds like a pretty lovely souvenir. 😂')">😂 A proper laugh</button>
+            <button class="choice" onclick="selectChoice(this, 'jaipurResult', 'A peaceful moment with no schedule and no one asking questions. Very respectable. 🌙')">🌙 A little quiet</button>
+          </div>
+          <div class="reveal" id="jaipurResult" aria-live="polite"></div>
+          <p>Whatever you pick, the postcard has one more thing written in tiny letters at the bottom:</p>
+          <p class="small-note">“Somewhere, a certain Madam is collecting stories. The next chapter may have something to say about her… especially about those famous levels.”</p>
+          <p>The postcard has now received its second postmark. A tiny note has been tucked into the corner: “P.S. The mermaid from Virar says hello. Apparently, someone is supposed to ask how she's doing.” 😂</p>
+          <p class="end-line">Well, that sounds like a message from the carnival. The next chapter might finally bring the mermaid her much-awaited health update. 👀</p>
+        </div>
+      </article>
+
+      <article class="chapter" data-episode="3">
+        <div class="chapter-top">
+          <div class="chapter-icon">🎭</div>
+          <div class="chapter-copy">
+            <div class="chapter-kicker">Chapter 03 · The plot twist</div>
+            <div class="chapter-title" id="title3">The Madam Levels Department</div>
+            <div class="chapter-teaser" id="teaser3">A very unofficial assessment has arrived.</div>
+          </div>
+          <button class="open-btn" id="button3" disabled>Sealed</button>
+        </div>
+        <div class="chapter-body" id="episode3">
+          <div class="inner-rule"></div>
+          <div class="postmark"><span class="stamp">🎟️</span> Postmark 03 of 04 · The carnival cameo</div>
+          <h3>Madam, we need to discuss your levels.</h3>
+          <p>A confidential report has arrived from the Department of Madam's Levels.</p>
+          <p>The report says that the person who thought they'd seen level zero has clearly not unlocked the full game yet.</p>
+          <p>There are rumours of extra nakhre, surprise plot twists, a little drama and an occasional “think again, you're out of your league” moment. 😂</p>
+          <div class="gentle-reminder">
+            <div class="reminder-label">Friday's very unofficial laptop policy 💻</div>
+            <p>The laptop can stay on vacation mode today too. 😂 If something truly urgent sneaks in, give it a little time — an hour or so at most — and let your manager and teammates take it from there. Close the laptop and enjoy the offsite. You didn't travel to Jaipur to spend the day answering work messages.</p>
+          </div>
+          <div class="gentle-reminder">
+            <div class="reminder-label">A tiny day-two check-in 🌼</div>
+            <p>Hope you've eaten properly, taken your medicines and managed to get some decent sleep. Don't let the busy schedule make you forget the basics, okay? Keep yourself comfortable, go easy on cold things, and enjoy the day without rushing around.</p>
+            <p>And if you happen to send a little Jaipur picture my way, I won't complain. Hehe. 📸❤️</p>
+          </div>
+          <p>Before the department can proceed, it needs one answer.</p>
+          <div class="choice-prompt">Which character would Madam be in her own movie?</div>
+          <div class="choices" id="characterChoices">
+            <button class="choice" onclick="selectChoice(this, 'characterResult', 'The Main Character: the camera finds you even when you are doing absolutely nothing. 👑')">👑 Main character</button>
+            <button class="choice" onclick="selectChoice(this, 'characterResult', 'The Comedian: one perfectly timed line, and the entire scene is gone because everyone is laughing. 😂')">😂 The comedian</button>
+            <button class="choice" onclick="selectChoice(this, 'characterResult', 'The Plot Twist: nobody knows what happens next. Not even the writers. 🎬')">🎬 The plot twist</button>
+            <button class="choice" onclick="selectChoice(this, 'characterResult', 'The Mysterious One: reveals 2% of the story and leaves everyone curious about the remaining 98%. Very on-brand. 🕵️')">🕵️ The mysterious one</button>
+          </div>
+          <div class="reveal" id="characterResult" aria-live="polite"></div>
+          <p>Also, a quick update from the Virar carnival: the mermaid is doing perfectly well, thank you for asking. 🧜‍♀️😂</p>
+          <p>Apparently, after being called cute, she now expects regular health check-ins. Madam, look what you've started — you've created a celebrity!</p>
+          <p>Anyway, the Levels Department has resumed its very serious work. The mermaid has left one tiny hint about the paper plane's mystery, but naturally, she's not revealing the whole thing just yet.</p>
+          <p class="end-line">One final chapter is waiting. The last postmark may finally explain what this little delivery was carrying all along. 💌</p>
+        </div>
+      </article>
+
+      <article class="chapter" data-episode="4">
+        <div class="chapter-top">
+          <div class="chapter-icon">💌</div>
+          <div class="chapter-copy">
+            <div class="chapter-kicker">Chapter 04 · The little ending</div>
+            <div class="chapter-title" id="title4">A Note for the Journey Back</div>
+            <div class="chapter-teaser" id="teaser4">The last little delivery has reached its destination.</div>
+          </div>
+          <button class="open-btn" id="button4" disabled>Sealed</button>
+        </div>
+        <div class="chapter-body" id="episode4">
+          <div class="inner-rule"></div>
+          <div class="postmark"><span class="stamp">💌</span> Postmark 04 of 04 · Delivered</div>
+          <h3>And that's the little side quest. ✨</h3>
+          <p>So, Madam, the paper plane has completed its journey. It has collected a postcard, survived the Level Department and made it through the Jaipur side quest in one piece. 😂</p>
+          <p>But the thing it was carrying all along wasn't a secret object or a grand surprise.</p>
+          <p>Remember the first clue? Something that couldn't be packed in a suitcase, but could still travel with you.</p>
+          <p class="emphasis">It was a little thought, a shared joke, a small hello — the kind of thing that can cross the distance between Mumbai and Jaipur without needing a boarding pass.</p>
+          <p>And the four postmarks? They were simply four little chances to make an ordinary trip feel a bit more personal.</p>
+          <p>I couldn't be there in Jaipur, so I made this tiny corner from my side of the screen. A little story, a few silly references and a few moments that I hoped would make you smile while you were away.</p>
+          <p>And there's one little thing I wanted to say before this page signs off: I made it because I wanted to be a small part of your days, even from a distance. Just a few little hellos from my side, hoping they'd find you at the right moment and make you smile. That's really all there is to it.</p>
+          <p>Also, Jaipur may be the Pink City, but you've got your own way of making things a little brighter. And yes, Madam, you're pretty special to me. ❤️</p>
+          <p>I hope the trip gave you some lovely memories — the planned ones, the random ones, and the ones that become funny stories later.</p>
+          <p>Have a safe journey home, Madam. Take your time, enjoy the rest of the day, and come back with at least one story that deserves a full dramatic retelling. 😂</p>
+          <p class="end-line">P.S. The Nakhre Department remains open. There is no retirement plan. ❤️</p>
+        </div>
+      </article>
+    </section>
+
+    <section class="bonus">
+      <div class="star">✧</div>
+      <h3>A tiny bonus, just because</h3>
+      <p>There's one little note hiding here. No clue, no test. Just tap when you're curious.</p>
+      <button class="bonus-btn" onclick="revealBonus()">Reveal a tiny extra</button>
+      <div class="bonus-result" id="bonusResult" aria-live="polite"></div>
+    </section>
+
+    <footer class="footer">
+      Made in Mumbai, with a little thought and a little mischief.
+      <strong>Enjoy Jaipur, Madam. ✨</strong>
+      <div style="margin-top:9px">No deadlines. No homework. Open whenever you feel like it.</div>
+    </footer>
+  </main>
+
+  <script>
+    // Schedule is fixed to Indian Standard Time (UTC+05:30).
+    // Change these timestamps if the trip dates or preferred drop times change.
+    const episodeSchedule = [
+      { id: 1, unlockAt: Date.parse('2026-11-25T19:00:00+05:30') },
+      { id: 2, unlockAt: Date.parse('2026-11-26T10:30:00+05:30'), title: 'A little surprise is on its way', teaser: 'Something pink, one unexpected choice, and a small twist.', originalTitle: 'The Pink City Postcard', originalTeaser: 'A postcard from Jaipur has a little thought — and a gentle reminder.' },
+      { id: 3, unlockAt: Date.parse('2026-11-27T10:00:00+05:30'), title: 'The Madam Levels Department', teaser: 'A very unofficial assessment has arrived.', originalTitle: 'The Madam Levels Department', originalTeaser: 'A very unofficial assessment has arrived.' },
+      { id: 4, unlockAt: Date.parse('2026-11-28T09:00:00+05:30'), title: 'A Note for the Journey Back', teaser: 'The last little delivery has reached its destination.', originalTitle: 'A Note for the Journey Back', originalTeaser: 'The last little delivery has reached its destination.' }
+    ];
+
+    const params = new URLSearchParams(window.location.search);
+    const previewAll = params.get('preview') === 'all';
+    const formatter = new Intl.DateTimeFormat('en-IN', {
+      timeZone: 'Asia/Kolkata', day: 'numeric', month: 'short',
+      hour: 'numeric', minute: '2-digit', hour12: true
+    });
+
+    function isUnlocked(episode) {
+      return previewAll || Date.now() >= episode.unlockAt;
+    }
+
+    function formatCountdown(milliseconds) {
+      const totalSeconds = Math.max(0, Math.floor(milliseconds / 1000));
+      const days = Math.floor(totalSeconds / 86400);
+      const hours = Math.floor((totalSeconds % 86400) / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+      const pad = value => String(value).padStart(2, '0');
+      return (days ? `${days}d ` : '') + `${pad(hours)}h ${pad(minutes)}m ${pad(seconds)}s`;
+    }
+
+    let previewInitialized = false;
+
+    function updatePage() {
+      // In preview mode, reveal every chapter automatically so the owner can inspect
+      // the complete story without waiting for the scheduled unlocks.
+      if (previewAll && !previewInitialized) {
+        episodeSchedule.forEach(episode => {
+          document.getElementById(`episode${episode.id}`).classList.add('show');
+        });
+        previewInitialized = true;
+      }
+
+      let unlockedCount = 0;
+      let nextEpisode = null;
+
+      episodeSchedule.forEach(episode => {
+        const unlocked = isUnlocked(episode);
+        const button = document.getElementById(`button${episode.id}`);
+        const body = document.getElementById(`episode${episode.id}`);
+        const card = document.querySelector(`[data-episode="${episode.id}"]`);
+        const title = card.querySelector('.chapter-title');
+        const kicker = card.querySelector('.chapter-kicker');
+        const teaser = card.querySelector('.chapter-teaser');
+
+        if (unlocked) {
+          unlockedCount++;
+          button.disabled = false;
+          button.textContent = body.classList.contains('show') ? 'Close chapter' : 'Open chapter';
+          card.classList.remove('locked');
+          if (episode.id > 1) {
+            title.textContent = episode.originalTitle;
+            teaser.textContent = episode.originalTeaser;
+            kicker.textContent = `Chapter 0${episode.id} · Now available`;
+          }
+        } else {
+          button.disabled = true;
+          button.textContent = 'Sealed';
+          card.classList.add('locked');
+          if (!nextEpisode) nextEpisode = episode;
+          title.textContent = 'A little surprise is on its way';
+          kicker.textContent = `Chapter 0${episode.id} · Sealed for now`;
+          teaser.textContent = 'The next part of the story is getting ready. Come back whenever you like.';
+        }
+      });
+
+      document.getElementById('availableCount').textContent = `${unlockedCount} of 4 available`;
+      document.getElementById('previewBanner').classList.toggle('show', previewAll);
+
+      const countTitle = document.getElementById('countTitle');
+      const countTime = document.getElementById('countTime');
+      const countSub = document.getElementById('countSub');
+      if (nextEpisode) {
+        countTitle.textContent = 'The next little chapter arrives in';
+        countTime.textContent = formatCountdown(nextEpisode.unlockAt - Date.now());
+        countSub.textContent = `Next chapter · ${formatter.format(new Date(nextEpisode.unlockAt))} IST`;
+      } else {
+        countTitle.textContent = 'All four little chapters have arrived';
+        countTime.textContent = 'The whole story is here. ✨';
+        countSub.textContent = 'Open any chapter whenever you feel like revisiting it.';
+      }
+    }
+
+    function toggleEpisode(id) {
+      const episode = episodeSchedule.find(item => item.id === id);
+      if (!episode || !isUnlocked(episode)) return;
+      const body = document.getElementById(`episode${id}`);
+      const button = document.getElementById(`button${id}`);
+      const isOpen = body.classList.toggle('show');
+      button.textContent = isOpen ? 'Close chapter' : 'Open chapter';
+    }
+
+    function selectChoice(button, resultId, message) {
+      const group = button.parentElement;
+      group.querySelectorAll('.choice').forEach(choice => choice.classList.remove('selected'));
+      button.classList.add('selected');
+      const result = document.getElementById(resultId);
+      result.textContent = message;
+      result.classList.add('show');
+    }
+
+    const bonusMessages = [
+      'A small official reminder: Madam is allowed to have fun without checking every notification. 😂',
+      'Somewhere in Mumbai, a certain paper plane is still insisting it deserved a window seat.',
+      "Today’s scientific finding: one good laugh can be a better souvenir than a fridge magnet. ✨",
+      'The Levels Department has one final update: Madam’s next level remains classified. Please do not attempt to access it without supervision. 😂'
+    ];
+    let lastBonus = -1;
+    function revealBonus() {
+      let pick = Math.floor(Math.random() * bonusMessages.length);
+      if (bonusMessages.length > 1) {
+        while (pick === lastBonus) pick = Math.floor(Math.random() * bonusMessages.length);
+      }
+      lastBonus = pick;
+      const result = document.getElementById('bonusResult');
+      result.textContent = bonusMessages[pick];
+      result.classList.add('show');
+    }
+
+    updatePage();
+    window.setInterval(updatePage, 1000);
+  </script>
+</body>
+</html>
